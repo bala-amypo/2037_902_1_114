@@ -34,5 +34,16 @@ public class ServiceCounter{
     public void setName(String counterName){
         this.counterName=counterName;
     }
-    public String g
+    public String getDepartment(){
+        return department;
+    }
+    public void setDepartment(String department){
+        this.department=department;
+    }
+    public Boolean getIsActive(){
+        return isActive;
+    }
+    public void setIsActive(Boolean isActive){
+        this.isActive=isActive;
+    }
 }
