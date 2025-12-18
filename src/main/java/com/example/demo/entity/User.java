@@ -2,8 +2,15 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 @Entity
-@
+@Table(
+   name="users",
+   uniqueConstraints={
+     @UniqueConstraints(columnNames="email")
+    }
+)
 public class User{
+    @Id
+    @GeneartedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
