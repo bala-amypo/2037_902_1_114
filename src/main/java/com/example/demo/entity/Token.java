@@ -31,7 +31,6 @@ public class Token {
 
     private LocalDateTime completedAt;
 
-    // Constructors
     public Token() {
     }
 
@@ -42,7 +41,6 @@ public class Token {
         this.issuedAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

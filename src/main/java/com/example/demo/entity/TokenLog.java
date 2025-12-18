@@ -20,7 +20,6 @@ public class TokenLog {
 
     private LocalDateTime loggedAt;
 
-    // Constructors
     public TokenLog() {
     }
 
@@ -34,7 +33,6 @@ public class TokenLog {
         this.loggedAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
