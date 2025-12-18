@@ -2,7 +2,10 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 @Entity
+@Table(name="service_counter")
 public class ServiceCounter{
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String counterName;
     private String department;
@@ -13,8 +16,23 @@ public class ServiceCounter{
     }
 
     public ServiceCounter(Long id,String counterName,String department,Boolean isActive){
+        this.id=id;
         this.counterName=counterName;
         this.department=department;
         this.isActive=isActive;
     }
+
+    public Long getId(){
+        return id;
+    }
+    public void setId(Long id){
+        this.id=id;
+    }
+    public String getCounterName(){
+        return counterName;
+    }
+    public void setName(String counterName){
+        this.counterName=counterName;
+    }
+    public String g
 }
