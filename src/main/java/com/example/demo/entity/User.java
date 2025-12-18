@@ -30,5 +30,22 @@ public class User{
     public void setName(String name){
         this.name=name;
     }
-    public String get
+    public String getEmail(){
+        return email;
+    }
+    public String setEmail(String email){
+        this.email=email;
+    }
+    public String getPassword(){
+        return password;
+    }
+    public String setPassword(String password){
+        this.password=password;
+    }
+    public String getRole(){
+        return role;
+    }
+    public void setRole(String role){
+        this.role=role;
+    }
 }
