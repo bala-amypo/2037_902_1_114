@@ -12,24 +12,24 @@ public class QueuePosition {
     
     @OneToOne
     @JoinColumn(name = "token_id")
-    private BreachAlert token;
+    private Token token;
     
     private Integer position;
     private LocalDateTime updatedAt;
-    
+
     public QueuePosition() {}
-    
-    public QueuePosition(BreachAlert token, Integer position, LocalDateTime updatedAt) {
+
+    public QueuePosition(Token token, Integer position, LocalDateTime updatedAt) {
         this.token = token;
         this.position = position;
         this.updatedAt = updatedAt;
     }
-    
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public BreachAlert getToken() { return token; }
-    public void setToken(BreachAlert token) { this.token = token; }
+    public Token getToken() { return token; }
+    public void setToken(Token token) { this.token = token; }
     
     public Integer getPosition() { return position; }
     public void setPosition(Integer position) { this.position = position; }
@@ -37,3 +37,4 @@ public class QueuePosition {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
+

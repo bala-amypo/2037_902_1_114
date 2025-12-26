@@ -12,31 +12,31 @@ public class TokenLog {
     
     @ManyToOne
     @JoinColumn(name = "token_id")
-    private BreachAlert token;
+    private Token token;
     
     private String logMessage;
-    private LocalDateTime loggedAt;
-    
+    private LocalDateTime loggedAt = LocalDateTime.now();
+
     public TokenLog() {}
-    
-    public TokenLog(BreachAlert token, String logMessage, LocalDateTime loggedAt) {
+
+    public TokenLog(Token token, String logMessage, LocalDateTime loggedAt) {
         this.token = token;
         this.logMessage = logMessage;
         this.loggedAt = loggedAt;
     }
-    
+
     @PrePersist
     public void prePersist() {
         if (loggedAt == null) {
             loggedAt = LocalDateTime.now();
         }
     }
-    
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public BreachAlert getToken() { return token; }
-    public void setToken(BreachAlert token) { this.token = token; }
+    public Token getToken() { return token; }
+    public void setToken(Token token) { this.token = token; }
     
     public String getLogMessage() { return logMessage; }
     public void setLogMessage(String logMessage) { this.logMessage = logMessage; }

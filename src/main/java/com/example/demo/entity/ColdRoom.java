@@ -13,16 +13,16 @@ public class ColdRoom {
     private String location;
     private Double minAllowed;
     private Double maxAllowed;
-    
+
     public ColdRoom() {}
-    
+
     public ColdRoom(String name, String location, Double minAllowed, Double maxAllowed) {
         this.name = name;
         this.location = location;
         this.minAllowed = minAllowed;
         this.maxAllowed = maxAllowed;
     }
-    
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

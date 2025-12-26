@@ -1,4 +1,3 @@
-SensorDevice:
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -17,16 +16,16 @@ public class SensorDevice {
     @JoinColumn(name = "cold_room_id")
     private ColdRoom coldRoom;
     
-    private Boolean isActive;
-    
+    private Boolean isActive = true;
+
     public SensorDevice() {}
-    
+
     public SensorDevice(String identifier, ColdRoom coldRoom, Boolean isActive) {
         this.identifier = identifier;
         this.coldRoom = coldRoom;
         this.isActive = isActive;
     }
-    
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
