@@ -1,8 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.ColdRoom;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.ColdRoomRepository;
+import com.example.demo.entity.ServiceCounter;
+import com.example.demo.repository.ServiceCounterRepository;
 import com.example.demo.service.ColdRoomService;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,28 +9,25 @@ import java.util.List;
 @Service
 public class ColdRoomServiceImpl implements ColdRoomService {
     
-    private final ColdRoomRepository coldRoomRepository;
-    
-    public ColdRoomServiceImpl(ColdRoomRepository coldRoomRepository) {
-        this.coldRoomRepository = coldRoomRepository;
+    private final ServiceCounterRepository repository;
+
+    public ColdRoomServiceImpl(ServiceCounterRepository repository) {
+        this.repository = repository;
     }
-    
+
     @Override
-    public ColdRoom createColdRoom(ColdRoom coldRoom) {
-        if (coldRoom.getMinAllowed() >= coldRoom.getMaxAllowed()) {
-            throw new IllegalArgumentException("Invalid temperature range");
-        }
-        return coldRoomRepository.save(coldRoom);
+    public ServiceCounter addColdRoom(ServiceCounter coldRoom) {
+        return repository.save(coldRoom);
     }
-    
+
     @Override
-    public List<ColdRoom> getAllColdRooms() {
-        return coldRoomRepository.findAll();
+    public List<ServiceCounter> getAllColdRooms() {
+        return repository.findAll();
     }
-    
+
     @Override
-    public ColdRoom findById(Long id) {
-        return coldRoomRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("ColdRoom not found"));
+    public ServiceCounter getColdRoomById(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Cold room not found"));
     }
 }
