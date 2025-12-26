@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.BreachAlert;
+import com.example.demo.entity.Token;
 
 public interface TokenService {
-    BreachAlert issueToken(Long counterId);
-    BreachAlert updateStatus(Long tokenId, String status);
-    BreachAlert getToken(Long tokenId);
+    Token issueToken(Long counterId);
+    Token updateStatus(Long tokenId, String status);
+    Token getToken(Long tokenId);
 }

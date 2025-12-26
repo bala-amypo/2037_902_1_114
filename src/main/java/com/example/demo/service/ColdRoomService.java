@@ -1,11 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.ColdRoom;
+import com.example.demo.entity.ServiceCounter;
 import java.util.List;
 
 public interface ColdRoomService {
-    ColdRoom createColdRoom(ColdRoom coldRoom);
-    List<ColdRoom> getAllColdRooms();
-    ColdRoom findById(Long id);
+    ServiceCounter addColdRoom(ServiceCounter coldRoom);
+    List<ServiceCounter> getAllColdRooms();
+    ServiceCounter getColdRoomById(Long id);
 }
-
