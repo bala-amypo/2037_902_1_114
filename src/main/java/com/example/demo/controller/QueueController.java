@@ -27,4 +27,3 @@ public class QueueController {
         return ResponseEntity.ok(position);
     }
 }
-
