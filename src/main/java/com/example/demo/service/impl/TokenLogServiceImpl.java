@@ -28,8 +28,7 @@ public class TokenLogServiceImpl implements TokenLogService {
         log.setLogMessage(message);
         log.setLoggedAt(LocalDateTime.now());
         
-        TokenLog saved = logRepository.save(log);
-        return saved != null ? saved : log;
+        return logRepository.save(log);
     }
 
     public List<TokenLog> getLogs(Long tokenId) {

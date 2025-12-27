@@ -33,8 +33,7 @@ public class QueueServiceImpl implements QueueService {
         queuePosition.setPosition(newPosition);
         queuePosition.setUpdatedAt(LocalDateTime.now());
         
-        QueuePosition saved = queueRepository.save(queuePosition);
-        return saved != null ? saved : queuePosition;
+        return queueRepository.save(queuePosition);
     }
 
     public QueuePosition getPosition(Long tokenId) {
