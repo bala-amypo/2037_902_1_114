@@ -6,10 +6,14 @@ import com.example.demo.service.TokenService;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class TokenServiceImpl implements TokenService {
+    
+    private static final String STATUS_WAITING = "WAITING";
+    private static final String STATUS_SERVING = "SERVING";
+    private static final String STATUS_COMPLETED = "COMPLETED";
+    private static final String STATUS_CANCELLED = "CANCELLED";
     
     private final TokenRepository tokenRepository;
     private final ServiceCounterRepository counterRepository;
@@ -31,20 +35,20 @@ public class TokenServiceImpl implements TokenService {
         ServiceCounter counter = counterRepository.findById(counterId)
             .orElseThrow(() -> new RuntimeException("Counter not found"));
         
-        if (!counter.getIsActive()) {
+        if (!Boolean.TRUE.equals(counter.getIsActive())) {
             throw new IllegalArgumentException("Counter is not active");
         }
 
         Token token = new Token();
         token.setTokenNumber(generateTokenNumber(counter));
         token.setServiceCounter(counter);
-        token.setStatus("WAITING");
+        token.setStatus(STATUS_WAITING);
         token.setIssuedAt(LocalDateTime.now());
         
         token = tokenRepository.save(token);
         
         // Create queue position
-        List<Token> waitingTokens = tokenRepository.findByServiceCounter_IdAndStatusOrderByIssuedAtAsc(counterId, "WAITING");
+        List<Token> waitingTokens = tokenRepository.findByServiceCounter_IdAndStatusOrderByIssuedAtAsc(counterId, STATUS_WAITING);
         QueuePosition queuePosition = new QueuePosition();
         queuePosition.setToken(token);
         queuePosition.setPosition(waitingTokens.size());
@@ -73,7 +77,7 @@ public class TokenServiceImpl implements TokenService {
         }
         
         token.setStatus(status);
-        if ("COMPLETED".equals(status) || "CANCELLED".equals(status)) {
+        if (STATUS_COMPLETED.equals(status) || STATUS_CANCELLED.equals(status)) {
             token.setCompletedAt(LocalDateTime.now());
         }
         
@@ -100,13 +104,12 @@ public class TokenServiceImpl implements TokenService {
     }
 
     private boolean isValidTransition(String from, String to) {
-        if ("WAITING".equals(from)) {
-            return "SERVING".equals(to) || "CANCELLED".equals(to);
+        if (STATUS_WAITING.equals(from)) {
+            return STATUS_SERVING.equals(to) || STATUS_CANCELLED.equals(to);
         }
-        if ("SERVING".equals(from)) {
-            return "COMPLETED".equals(to) || "CANCELLED".equals(to);
+        if (STATUS_SERVING.equals(from)) {
+            return STATUS_COMPLETED.equals(to) || STATUS_CANCELLED.equals(to);
         }
         return false;
     }
 }
-
