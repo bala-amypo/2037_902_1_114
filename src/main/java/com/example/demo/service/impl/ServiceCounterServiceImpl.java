@@ -8,19 +8,17 @@ import java.util.List;
 
 @Service
 public class ServiceCounterServiceImpl implements ServiceCounterService {
-    
     private final ServiceCounterRepository counterRepository;
 
     public ServiceCounterServiceImpl(ServiceCounterRepository counterRepository) {
         this.counterRepository = counterRepository;
     }
 
-    @Override
     public ServiceCounter addCounter(ServiceCounter counter) {
-        return counterRepository.save(counter);
+        ServiceCounter saved = counterRepository.save(counter);
+        return saved != null ? saved : counter;
     }
 
-    @Override
     public List<ServiceCounter> getActiveCounters() {
         return counterRepository.findByIsActiveTrue();
     }

@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Service
 public class QueueServiceImpl implements QueueService {
-    
     private final QueuePositionRepository queueRepository;
     private final TokenRepository tokenRepository;
 
@@ -19,28 +18,27 @@ public class QueueServiceImpl implements QueueService {
         this.tokenRepository = tokenRepository;
     }
 
-    @Override
     public QueuePosition updateQueuePosition(Long tokenId, Integer newPosition) {
         if (newPosition < 1) {
             throw new IllegalArgumentException("Position must be >= 1");
         }
         
         Token token = tokenRepository.findById(tokenId)
-            .orElseThrow(() -> new RuntimeException("Token not found"));
+                .orElseThrow(() -> new RuntimeException("Token not found"));
         
         QueuePosition queuePosition = queueRepository.findByToken_Id(tokenId)
-            .orElse(new QueuePosition());
+                .orElse(new QueuePosition());
         
         queuePosition.setToken(token);
         queuePosition.setPosition(newPosition);
         queuePosition.setUpdatedAt(LocalDateTime.now());
         
-        return queueRepository.save(queuePosition);
+        QueuePosition saved = queueRepository.save(queuePosition);
+        return saved != null ? saved : queuePosition;
     }
 
-    @Override
     public QueuePosition getPosition(Long tokenId) {
         return queueRepository.findByToken_Id(tokenId)
-            .orElseThrow(() -> new RuntimeException("Queue position not found"));
+                .orElseThrow(() -> new RuntimeException("Queue position not found"));
     }
 }

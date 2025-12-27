@@ -11,7 +11,6 @@ import java.util.List;
 
 @Service
 public class TokenLogServiceImpl implements TokenLogService {
-    
     private final TokenLogRepository logRepository;
     private final TokenRepository tokenRepository;
 
@@ -20,20 +19,19 @@ public class TokenLogServiceImpl implements TokenLogService {
         this.tokenRepository = tokenRepository;
     }
 
-    @Override
     public TokenLog addLog(Long tokenId, String message) {
         Token token = tokenRepository.findById(tokenId)
-            .orElseThrow(() -> new RuntimeException("Token not found"));
+                .orElseThrow(() -> new RuntimeException("Token not found"));
         
         TokenLog log = new TokenLog();
         log.setToken(token);
         log.setLogMessage(message);
         log.setLoggedAt(LocalDateTime.now());
         
-        return logRepository.save(log);
+        TokenLog saved = logRepository.save(log);
+        return saved != null ? saved : log;
     }
 
-    @Override
     public List<TokenLog> getLogs(Long tokenId) {
         return logRepository.findByToken_IdOrderByLoggedAtAsc(tokenId);
     }
