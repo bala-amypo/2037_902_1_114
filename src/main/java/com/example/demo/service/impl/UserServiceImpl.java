@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public User findById(Long id) {
-        throw new RuntimeException("User not found");
+    return userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
 }
