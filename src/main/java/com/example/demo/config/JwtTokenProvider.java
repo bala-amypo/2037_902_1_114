@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
@@ -13,6 +14,7 @@ public class JwtTokenProvider {
     private final long expirationMillis;
     private final Key key;
 
+    @Autowired
     public JwtTokenProvider() {
         this.secretKey = "ChangeThisSecretKeyReplaceMe1234567890";
         this.expirationMillis = 3600000; // 1 hour
