@@ -1,60 +1,34 @@
 package com.example.demo.controller;
 
-import com.example.demo.config.JwtTokenProvider;
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.LoginResponse;
-import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.entity.User;
+import com.example.demo.dto.LoginResponse;
+import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private UserService userService;
 
-    // Local encoder to avoid bean issues
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    public AuthController(UserService userService,
-                          JwtTokenProvider jwtTokenProvider) {
-        this.userService = userService;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
-    // -------------------------------
-    // REGISTER
-    // -------------------------------
+    // Register endpoint
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-
-        User savedUser = userService.register(user);
-        return ResponseEntity.ok(savedUser);
+    public User register(@RequestBody User user) {
+        return userService.register(user);
     }
 
-    // -------------------------------
-    // LOGIN
-    // -------------------------------
+    // Login endpoint
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public LoginResponse login(@RequestBody User loginRequest) {
+        User user = userService.findByEmail(loginRequest.getEmail());
 
-        User user = userService.findByEmail(request.getEmail());
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid credentials");
+        if (!user.getPassword().equals(loginRequest.getPassword())) {
+            throw new RuntimeException("Invalid password");
         }
 
-        String token = jwtTokenProvider.generateToken(
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
-
-        return ResponseEntity.ok(new LoginResponse(token));
+        return new LoginResponse("Login successful", user.getRole());
     }
 }
+ 
