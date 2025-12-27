@@ -15,8 +15,7 @@ public class ServiceCounterServiceImpl implements ServiceCounterService {
     }
 
     public ServiceCounter addCounter(ServiceCounter counter) {
-        ServiceCounter saved = counterRepository.save(counter);
-        return saved != null ? saved : counter;
+        return counterRepository.save(counter);
     }
 
     public List<ServiceCounter> getActiveCounters() {

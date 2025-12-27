@@ -23,8 +23,7 @@ public class UserServiceImpl implements UserService {
             user.setRole("STAFF");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User saved = userRepository.save(user);
-        return saved != null ? saved : user;
+        return userRepository.save(user);
     }
 
     public User findByEmail(String email) {
@@ -33,8 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User findById(Long id) {
-    return userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
-
 }

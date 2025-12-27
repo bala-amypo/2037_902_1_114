@@ -42,24 +42,23 @@ public class TokenServiceImpl implements TokenService {
         token.setStatus("WAITING");
         token.setIssuedAt(LocalDateTime.now());
         
-        Token saved = tokenRepository.save(token);
-        Token finalToken = saved != null ? saved : token;
+        Token savedToken = tokenRepository.save(token);
         
         // Create queue position
         List<Token> waitingTokens = tokenRepository.findByServiceCounter_IdAndStatusOrderByIssuedAtAsc(counterId, "WAITING");
         QueuePosition queuePosition = new QueuePosition();
-        queuePosition.setToken(finalToken);
+        queuePosition.setToken(savedToken);
         queuePosition.setPosition(waitingTokens.size());
         queuePosition.setUpdatedAt(LocalDateTime.now());
         queueRepository.save(queuePosition);
         
         // Create log
         TokenLog log = new TokenLog();
-        log.setToken(finalToken);
+        log.setToken(savedToken);
         log.setLogMessage("Token issued");
         logRepository.save(log);
         
-        return finalToken;
+        return savedToken;
     }
 
     public Token updateStatus(Long tokenId, String newStatus) {
@@ -79,15 +78,15 @@ public class TokenServiceImpl implements TokenService {
             token.setCompletedAt(LocalDateTime.now());
         }
         
-        Token saved = tokenRepository.save(token);
+        Token savedToken = tokenRepository.save(token);
         
         // Create log
         TokenLog log = new TokenLog();
-        log.setToken(saved != null ? saved : token);
+        log.setToken(savedToken);
         log.setLogMessage("Status updated to " + newStatus);
         logRepository.save(log);
         
-        return saved != null ? saved : token;
+        return savedToken;
     }
 
     public Token getToken(Long tokenId) {
