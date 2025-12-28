@@ -73,7 +73,19 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		w
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.8.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
@@ -99,31 +111,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.5</version>
-				<configuration>
-					<parallel>none</parallel>
-					<threadCount>1</threadCount>
-					<forkCount>1</forkCount>
-					<reuseForks>false</reuseForks>
-					<argLine>-Xmx1024m</argLine>
-					<properties>
-						<property>
-							<name>configfailurepolicy</name>
-							<value>continue</value>
-						</property>
-					</properties>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-testng</artifactId>
-						<version>3.2.5</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+		   
 		</plugins>
 	</build>
 </project>
